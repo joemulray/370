@@ -1,0 +1,86 @@
+Joseph Mulray
+CS370
+
+Chapter 1: Questions 4, 5, 7, 8, 10
+Chapter 3: Questions 1, 2, 3, 5, 6
+
+CHAPTER 1
+
+	4. Describe how microkernel designs are especially well suited to distributed operating systems.
+
+Microkernel designs are suited well to distributed operating systems. One effective aspect of this design is the communication between components that might otherwise take place through shared variables or parameter passing. This shows the importance of the design of a microkernel to be efficient because a poorly designed kernel can be inefficient and cause security flaws within the operating system. 
+
+
+	5. Should an unprivileged user process be allowed to execute a system call that changes the system clock? Why or why not?
+
+No an unprivileged user process should no be allowed to execute a system call that changes the system clock. There should be conventions put in place that restrict certain processes and tasks of the operating system. Having a OS that does not have a administrator defined causes a severe amount of problems especially security issues where anyone could be granted any process to execute on the system.
+
+
+	6. What are the advantages and disadvantages of integrating the user interface into the operating system?
+
+Some advantages of a operating system that integrates a user interface is that the user interface can interact with a broader scope of people rather than one without that would require a specific bios language or binary to learn/interact with. With several types of user interfaces such as GUI (graphical user interface) and CLI (command line interface) that provide and easier way to navigate and traverse the system. Some of the disadvantages of a User interface into the operating system is the vast amount of space that is required to store and run the UI. This can be very cumbersome when working with computers or systems that have a limited size of memory allocation available, so having a User interface can severely limit functionality of the OS.
+
+
+	7. What are the security aspects of memory management? Of file system management?
+
+The are several important aspects of security in memory management. This includes the authentication of the identity of the requester. Also, the authorization of access according to the security policy. Of a file system it is essential that it protects resources from unauthorized access as well as managing a persistent storage of data. All of these aspects are essential in the security of the file system, in tasks that include opening, closing, reading, writing, and modifying contents of a file system. 
+
+
+	8. Why are special instructions used to implement system calls? Why not use normal subroutine calling instructions?
+
+Special instructions are used to implement system calls are used to save the current state of the machine and transfer control to a function in the operating system. The transfer of control is usually done using some sort of trap or software interrupt instruction. These special instructions are used instead of normal subroutine callings because the transfer of control is handed to the operating system and then returned back to the user instead of using a normal subroutine that would require to perform that specific task and not have the operating system perform it.
+
+
+	10. Why do we need a special bootstrapping procedure? Why not just load the OS like we load any other program?
+
+You need a special bootstrapping procedure when running a bootstrap loader because it is the first piece of code that is ran when a system is booting up. It is responsible for loading the rest of the operating system which is why it needs a special procedure rather than just loading from memory. It is essential to have a bootstrapping procedure in order to load the rest of the operating system.
+
+
+
+
+
+-------------------------------------------------
+
+CHAPTER 3
+
+	1. Figure 3-2 doesn’t show file system support anywhere. Why not? How are file systems handled in hosted Inferno? In native Inferno?
+
+Inferno does not use the traditional file system support that uses the same set of names that are available to all processes. It uses a name space file system that can assemble name space from separate files and directories. This enables name spaces to be inherited and can allow each process to construct its own unique name space. In the case of hosted inferno, these accesses are relayed though the host operating system and in the and in native handled through conventional drivers. 
+
+
+	2. Inferno doesn’t use a software interrupt instruction to initiate system calls. Would it be feasible to use such an instruction for Inferno running natively? For Inferno running hosted by another OS?
+
+Natively this would be feasible however when running on a hosted OS. All of the usual operating system services are available to applications, but there is no system call mechanism for transferring control. This is due to the structure of Inferno running and compiling instructions in Dis. 
+
+
+
+	3. How many lines of code are contained in each of the directories discussed in Section 3.3.2?
+
+Counting all of the lines of code written in C files in each of the directories listed
+
+os: 244684 total
+lib9: 5361 total
+libdraw: 4270 total
+libfreetype: 85022 total
+libinterp: 34191 total
+libmath: 9012 total
+libmemdraw: 6596 total
+libmemlayer: 1213 total
+libtk: 28701 total
+
+
+	4. Inferno does not have the notion of a superuser or other privileged user. Compare and contrast the role of eve to that of a superuser.
+
+A superuser is the account or user name that by default has access to all commands and files. This superuser account is the most privileged account on the system with the ability to revoke and grant access permissions. In inferno however there is no notion of a superuser or root user. It is during the initialization phase of the system that it is needed to identify the user who owns access to devices and other system resources using a logged-in user system approach rather than having a sole administrative root user.
+
+
+	5. In many time-sharing operating systems (including UNIX), hardware is owned by a superuser or other administrative user. Yet the same people who developed UNIX chose to make such things owned by the logged-in user in Inferno. Why did they use a different approach with Inferno?
+
+By using this approach Inferno is able to achieve a key element of portability that applications can be written to operate equally. Inferno can achieve this in both native and hosted versions of Inferno and offers a key advantage to the approach in a UNIX operating system.
+
+
+	6. Is it possible that we could fail to open all three initial file descriptors in emuinit ( ) but not print the error message? How?
+	
+Emuinit is the default initialization program for emu. This function never returns, in this case you do not expect to main program to exit and throw some sort of error to identify it continues to run despite failing all three initial file descriptors.
+
+
