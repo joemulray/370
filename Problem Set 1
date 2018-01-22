@@ -1,5 +1,7 @@
 Joseph Mulray
+Problem Set 1
 CS370
+1/21/18
 
 Chapter 1: Questions 4, 5, 7, 8, 10
 Chapter 3: Questions 1, 2, 3, 5, 6
@@ -57,12 +59,13 @@ Natively this would be feasible however when running on a hosted OS. All of the 
 	3. How many lines of code are contained in each of the directories discussed in Section 3.3.2?
 
 Counting all of the lines of code written in C files in each of the directories listed
-
+emu: 57658 total
 os: 244684 total
 lib9: 5361 total
 libdraw: 4270 total
 libfreetype: 85022 total
 libinterp: 34191 total
+libkeyring: 670 total
 libmath: 9012 total
 libmemdraw: 6596 total
 libmemlayer: 1213 total
