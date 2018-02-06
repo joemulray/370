@@ -1,0 +1,94 @@
+Joseph Mulray
+CS 370
+February 4th 2018
+Problem Set 2
+
+Chapter 5: Exercises: 1, 2, 5, 8, 9, 10, 15
+Chapter 7: Exercises: 2, 4, 5
+Due Feb 4, 2018
+
+
+	1. If a compute-bound process (it never does I/O) takes T seconds to run, will the time taken for n such processes be less than, equal to, or greater than nT on a realistic system that does round-robin scheduling? Why?
+
+The time taken for n such processes will be best case equal to worst case greater than nT on a realistic system that does round-robin scheduling. Round-robin uses a time sharing approach so that each process will have an equal quantum. This approach can be equal or greater than turnaround time of nT times. This approach is very heavily dependent on the number of processes and the length of the quantum. Larger quantum means it will behave more like a FIFO, with a smaller quantum you cycle through processes more quickly which can act as equal time(T), but constantly switching processes will increase time(T) for a system, so finding an ideal quantum time to reduce delay is essential.
+
+
+	2. Extend the timeline in Example 5.5 to show which processes get scheduled for the next 10 time slices.
+
+1 being highest priority for multilevel feedback queue
+
+10[] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> A
+9[] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> A
+8[] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> A
+7[] -> [] -> [] -> [] -> [] -> [] -> [] -> A
+6[] -> [] -> [] -> [] -> [] -> [] -> A
+5[] -> [] -> [] -> [] -> [] -> A
+4[] -> [] -> [] -> [] -> A
+3[] -> [] -> [] -> A
+2[] -> A
+1[] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> [] -> A
+
+
+	5. Describe how disabling interrupts prevents two processes from entering the critical section at the same time.
+
+Disabling interrupts prevents two processes from entering the critical section at the same time. If a process disables interrupts before it enters the critical section the CPU will be unable to switch processes. As a result the process can take a unknown amount of time starving other processes from ever being executed. It is something that should not be a user defined process as it can cause serious problems to a system. The process itself could never reenable interrupts causing the system to behave abnormally.
+
+
+	8. In Example 5.6, suppose that process a only uses 75% of each of its slots, process b uses 80% of each of its slots, process c uses 20% of its slot, and process d uses 15% of its slot. What is the efficiency of the overall scheduling cycle? Ignore any scheduling and context switching overhead.
+
+[a] 75% of given 50%: 37.5% usage
+[b] 80% of given 30%: 24% usage
+[c] 20% of given 10%: 2% usage
+[d] 15% of given 10%: 1.5% usage
+
+Overall the scheduling cycle is 65% more efficient 
+
+
+	9. Suppose we have a multilevel feedback queue such as the one illustrated in Figure 5-5 with three processes, a, b, and c, where each has a base priority of 1 and where each process moves down one level on completing a time slice. Let p(a) be boosted to 4, p(b) to 3, and p(c) to 2. How many time slices will expire before all three processes are back to their base priority? How many will each process get in the process?
+
+4[] -> [A]					1 | A
+3[] -> [B]					2 | B
+2[] -> [C]					3 | A
+1[] -> []					4 | C
+						5 | B
+						6 | A
+
+There will be 6 time slices before each process are back to their base priority. A and B will have 2 time slices each while C only has 1. 
+
+
+
+	10. What is the difference between a program and a process?
+
+A program is a set of instructions and a process is an instance of a running program. A program is stored some where in memory or disk as data, while a process resides on the primary memory and leaves the memory if the system is rebooted. A program is read into primary memory and then executed by the kernel, where you can have multiple instances of a process running.
+
+
+	15. Suppose we adjust a process’s priority by p′ = αp for each time slice where it is running and by p′ = 1 − α(1 − p) when it is blocked. (There is no change for processesthatarereadybutnotrunning.) If0<p<1and0<α<1,isitpossible for a ready process to ever starve? Why or why not?
+
+
+It is possible that the process will starve because because if p and α both have to be > 0 and < 1 then αp will have a higher priority as a result. For the case where 1-α(1-p) the priority will go down because the p' will increase having a lower priority causing the possibility of a processes starving as a possible outcome.
+
+
+-------------------------------------------------
+
+CHAPTER 7
+
+	2. In the per-instruction loop of xec(), why can’t we call the instruction execution function with the following line?
+	optab [R.PC⃗ op ]( );
+
+
+You cannot call the instruction execution function with the following line because any modifications would directly affect the machines register when passing in R.CP->op. It needs to be casted to a variable so that there is no issue with changing or modifying the operation code contents that would not affect the rest of the process's registers and instructions. Needs to be casted to a variable and with directly passing the R.CP pointer you would be including the incremented program counter which you do not want.
+
+needs to be:
+op = R.PC->op
+optab[op](); 
+
+	4. In the infinite scheduling loop of vmachine(), we check only the vmq list to see if there are any processes on it. Why do we not also look at the idlevmq list?
+
+The vmq list pointers are the head and tail of a linked list of the interpreter kprocs in the ready state. We do not also look at idlevqm list because idlevqm is a list of krpocs that are in the idle state for example have no associated user process, so there is no need to check this list during the infinite scheduling loop of vmachine().
+
+
+
+	5. Why do you suppose that the isched structure has a pointer to the tail of the vmq list and not to the tail of the idlevmq list?
+
+This is because of the processes contained in isched. The pointer is to the tail of the vmq list because it is a ready stated list of processes. When a process from the head is scheduled it is then easily added into the tail of the list where it can continue down the queue until it is first in the queue again. Idle processes are added to the idlevmq list and do not dependent on order as they are waiting to change state not a front position in the queue like vmq.
+
