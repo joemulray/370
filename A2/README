@@ -1,0 +1,40 @@
+Joseph Mulray
+CS 370
+Problem 7-6
+February 21 2018
+
+
+#Modify Inferno so that process ID numbers are reused when the counter rolls over. You should make sure that no two processes simultaneously have the same PID. At the same time, make sure that a process ID is not reused until all other ones have been used.
+
+The approach I used to accomplish this was to track the terminated process id's and make them available somehow to be reused in the event that there is a roll over. So I created a linked list structure to and store the pid's that are terminated in delprog(), and added them to my node_list structure. From there 
+when a new process is created in newprog() and there is no more pid available, i pop the first element out of the node_list	and assign that old pid to the newly created process.
+
+I tested this by limiting the number of PID that could be created so a reused pid would have to be used. I origally tried to limit the pid but I could not find the MAXPID values used in the os.c, I am not sure if it pulls from the host environment in linux and uses /proc/sys/kernel/pid_max or what the case was. Also tried using ulimit and other commands to limit the running process for the o.emu but did not work as expected.
+
+ I modified newproc to use older pid if a the pid was greater then 10 just for testing purposes and then pulled from a old process id and set that to the current process. Some of the tests i ran i pasted some of their output below to make sure reused processes ids are being used.
+
+; lc
+PIDNUM: 11
+PID to be REUSED: 3
+PID BEING USED: 3
+PIDNUM: 12
+PID to be REUSED: 4
+PID BEING USED: 4
+PIDNUM: 13
+PID to be REUSED: 2
+PID BEING USED: 2
+
+; sleep 100&
+PIDNUM: 14
+PID to be REUSED: 6
+PID BEING USED: 6
+; ps
+PIDNUM: 15
+PID to be REUSED: 7
+PID BEING USED: 7
+       1        1     jam699    0:00.0    release    74K Sh[$Sys]
+       6        1     jam699    0:00.0    release    74K Sleep[$Sys]
+       7        1     jam699    0:00.0      ready    74K Ps[$Sys]
+Deleted PID: 7 
+
+
