@@ -1,0 +1,154 @@
+Joseph Mulray
+CS370
+February 25 2018
+
+
+Chapter 9: Exercises: 1, 3, 6, 7, 10, 12, 16, 19
+Chapter 11: Exercises: 1, 4
+
+1. Suppose we have a hardware segmentation system like that shown in Figure 9-3 where the base and limit tables have eight entries. Base register i (numbered from 0) contains the value i × 210 + 0x100 and each limit register contains the hexadecimal value 0x200. If the 16-bit virtual address is 0x605f, then what physical address is computed? Does this address generate a fault?
+
+
+Base Registers
+0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 
+
+
+Virtual Address: 0x605f
+24671
+
+Limit:0x200
+512
+
+Entries	Base Register	Physcial Address	Hex Value	Fault
+0	256	24927	615F	Yes
+1	466	25137	6231	Yes
+2	676	25347	6303	Yes
+3	886	25557	63D5	Yes
+4	1096	25767	64A7	Yes
+5	1306	25977	6579	Yes
+6	1516	26187	664B	Yes
+7	1726	26397	671D	Yes
+
+
+3. The process memory layout shown in Figure 9-7 is based on hardware that decrements the stack pointer when pushing onto the stack. How would the design change if the hardware incremented the stack pointer instead?
+
+This would completely change the hardware design, the stack would now start at the bottom and grow upwards which would change the data segment as well. It would now mean Data segment would have to start at the top of the code segment and grow downwards in order to match the stack growing upwards which is not an applicable approach.
+
+
+6. Consider a system with 64-bit addressing. If the page size is 64 KB, how many levels must the paging system have so that each table fits within one page? (Take the PTE size to be 8 bytes.)
+
+
+64 bit
+Page Size: 64 KB
+64000 bytes
+PTE size 8 bytes
+64000 bytes / 8 bytes = 8000 entries
+
+8000 bytes
+8KB = 2^13
+13 bits
+
+Offset = 16 bits
+64KB = 2^6 * 2^10 = 2^16
+
+48 bits available
+
+Total number of levels:
+48/13 = (approximately) 4
+
+7. If we have a machine with a 32-bit virtual address and a 1-KB page size, then how many pages are in the virtual address space? If each PTE takes 4 bytes, then how many pages are required to hold a complete page table? If the physical address space is 256 MB, then how many bits are needed for the page frame number (PFN) in the PTE?
+
+
+32 bit virtual address:
+1KB page size
+PTE 4 bytes
+Physical Address 256 MB
+2^32 bytes addressable
+
+Each page is 1KB long
+Number of pages in virtual address:
+2^32 / 2^10 = 2^22 pages
+
+
+4 bytes
+2^22 pages available
+
+88 pages required to hold a complete page table
+
+1 KB page size
+256 MB physical address
+256 = 2^8
+MB = 2^20
+2^20 / 2^10 = 2^10 frames 
+
+
+10. An early version of UNIX was developed for small PDP-11 computers without mem- ory management hardware. It held only one process in memory at a time; a swap was needed on each context switch. An early disk drive for such systems was the RL01. This drive took 55 mS to seek to access the data, and that data could be transferred at a rate of 512 KB/S. If each process was 32 KB in size and the quantum was 0.3 S, what fraction of the time was the system doing useful work?
+
+
+.055S to seek access the data
+512 KB/s transfered
+
+32KB in process size
+quantum .3S
+
+Process 32KB/.35S
+Machine 512KB/1S
+
+.055 seconds seek data
+32/512 = .0625 seconds to transfer data 
+time actually spend doing quantum = .3S
+
+
+(.0625 S + .055 S) /.3 S = 39.17% doing useful work
+
+
+12. Does using paged memory management hardware have any value even if we never swap pages to disk and back?
+ 
+ Yes it does it finds and loads from main the main memory during paging and swapping so even if we never swap pages to disk and back it still will update the mapping location for the CPU, regardless on how long it might take for the paged memory management unit to process it.
+
+
+16. Suppose that for a given job, Belady’s min would result in a 99.99% hit rate, that memory access time is 70 nS, and that disk access time is 12 mS. If NFU results in 20% more page faults than Belady’s min, and second chance results in 30% more page faults than Belady’s min, how much is the average access time degraded for each of these page replacement policies?
+
+99.99% hit rate
+memory access time 70ns
+Disk access time is 12ms
+
+NFU results in 20% more page faults than Belady's min
+second chance 30% more
+
+Miss Rate = .01%
+12 * .01 = .12ms
+
+70 Nanoseconds =
+0.00007 Milliseconds
+
+NFU = 12ms
+Miss Rate = .2
+12 * .2 = 6ms
+6/.12 = 50 ms degraded
+
+Belady = 12ms
+Miss Rate = .3
+12 * .3 = 4ms
+4/.01 = 33.33ms degraded 
+
+
+
+19. Most systems don’t swap out pages that are part of a read-only text segment because they can be reread from the original executable file. Would there be any advantage to doing so?
+No in the event that you mark the pages as read-only you can prevent data pages from being executed like instructions. With this approach allows for more restriction on sharing portions of memory where this can be extremely beneficiary.
+	
+No since the pages are part of a read-only text segment there is no need to swap them out when you can just reread them from the original executable file. The pages are read only and cannot change as a result.
+
+
+
+-------------------------------------------------
+
+Chapter 11:
+
+1. Given our discussion of memory usage in Inferno, can Inferno support shared code between processes? Can multiple processes share the global data of a module?
+
+Yes Inferno can support shared code between processes and can select at the time of process creation. Yes multiple processes can share the global data of a module, information is mapped for a shared point for processes to obtain information from the stack
+
+4. When adding a block back to the free tree for a pool, we check to see if adjacent blocks are also free and coalesce them if they are. Is it possible that we might accidentally coalesce free blocks belonging to different pools in this way? Why or why not?
+
+No this is not possible because when you check if adjacent blocks are free are coalesce them into a larger block they are then checked if they are distinct from the other blocks and then inserted into the pool structure depending on assigned address. Blocks from different pool structures cannot be coalesced together. 
