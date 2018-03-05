@@ -1,0 +1,15 @@
+Joseph Mulray
+Programming Project 3
+
+For the basic assignment, replace the binary search tree in Inferno's memory allocation mechanism with a linked list. Keep the list sorted by the size of the free block so that you can continue implementing best-fit by searching through half the list on average. The criteria for choosing to split blocks and the free block coalescing should remain the same as the current system. You sould find that your implementation is substantially smaller (i.e. fewer lines of code) than the current implementation. Although you are not required to do a formal study of performance, do some tests to get a feel for how the performance compares to the original implementation.
+
+Modified Files:
+emu/port/alloc.c
+include/pool.h
+	
+Approach:
+The approach that I implemented during this problem in replacing the binary search tree with a linkedlist for the memory allocation for inferno. I did this by removing the attributes of the binary search tree, prev, left, right, from the pool structure and just replaced with one single pointer for the next node. From there  i modified pooldel and pooladd to now traverse the linked list instead of down the binary search tree to find and replace nodes. I also had to modify a couple of the smaller functions that were using the old search tree approach. In terms of testing I got the emulator running just continued to receive segmentation faults. I did not know if this was because not adding into the list by size or not or a wrong approach to freeing items from the pool. 
+
+
+
+
