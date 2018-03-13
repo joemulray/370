@@ -1,0 +1,125 @@
+Joseph Mulray
+CS370
+Problem Set 4
+3/11/18
+
+
+Problem Set 4
+Chapter 13: 2, 3, 5, 11
+Chapter 15: 2, 4
+Chapter 17: 5, 9, 14, 15
+
+
+Chapter 13:
+	2. 
+	Consider an RS-232 controller with no interrupt capability. If we are to support a 19,200 bps data rate with seven data bits, even parity, and one stop bit, how often should we poll the controller? If each polling operation takes 200 μS, what fraction of the system’s time is spent polling?
+
+19,200 bps data rate
+200ms each operation
+
+number of bits / bps
+10 / 19200 = 0.000520833333333s
+
+Poll the controller every 0.521 ms
+If each polling operation takes 200ms
+
+.51/200 = 0.00256
+.256% of the time is spend polling
+
+	3. 
+	What is the average access time for a disk drive that spins at 3600 RPM with an average seek time of 50 mS? What if the drive is spun at 10,000 RPM? Does the speed of rotation make a significant difference? What if the drive technology advances and makes the average seek time 9 mS?
+
+3,600 RMP drive spinning
+50mS average seek time
+
+(60 seconds / (3600 rotations / 2)) = 33 ms
+50mS + 33 ms = 83ms average access time
+
+If disk is spun at 10,000 RPM:
+
+50ms average seek time
+(60 seconds / (10,000 rotations /2 )) =  12ms
+
+50mS + 12ms = 62ms average access time
+The speed of the rotation makes a decently impaction to the average access time for a disk. It improves the average access time by .21 ms 25% faster.
+
+If the drive technology advances to 9ms this would dramatically change the average access time for the disk.
+If the same rotation speed of 3600 is used, the new average access time would be 42 ms instead of 83, which is 63% percent faster.
+
+
+	5.
+	What locking mechanism does the upper half of a device driver use to protect the critical sections that access the shared request queue?
+
+The locking mechanism that the upper half of a device driver uses to protect the critical sections that access the shared request queue is by disabling interrupts by using some sort of mutual exclusion locking that holds the lock from being modified or interrupted.
+
+
+	11.
+	Is the elevator algorithm of any value when used with disk drives that do bad track forwarding and that provide block caches? Why or why not?
+
+No it is not any value when being used with disk drives that do back track forwarding. A disk drive would receive a tremendous amount of feedback from using the algorithm for constantly starting sending and receiving data in the case that the drives do bad track forwarding which is very common thing to happen. Also that the disk provides block caches might not work because a block could be in the cache waiting and be missed. 
+
+
+------------------------------------------------
+
+CHAPTER 15:
+
+
+	2.
+	How many bits are used to specify the sector count for transfers when using LBA48? How many are used in the cases of LBA or cylinder-head-sector addressing?
+
+LBA48 uses 48 bits to represent the sector count for transfers while LBA or other cylinder-head-sector addressing use 8 bits to represent the sector count for transfers.
+
+
+	4.
+	Using old-style cylinder-head-sector addressing, consider a disk with 1024 cylinders, 4 two-sided platters, and 34 sectors per track. What is the total number of sectors on this disk? What are the cylinder, head, and sector number corresponding to block number 100,000?
+
+1024 cylinders
+4 two sides platters : 8 surfaces
+34 sectors per track 
+
+(x sectors / 1024 cylider)   x 	 (1024 cylinder / 8 surfaces)	 = 34 sectors per track.
+Total number of sectors: 272
+
+Cylinder: 2048
+Head: 2
+Sector: 20
+
+------------------------------------------------
+
+
+CHAPTER 17:
+
+	5.
+	Suppose we use a list of free blocks where each block is identified by a 32-bit number and each block contains 512 bytes. How many blocks are required to store the free list on a 20-GB disk if the disk is empty?
+
+	512 = 2^8
+20 GB =
+21474836480 Bytes
+
+21474836480 / 512 bytes per block = 41943040 blocks
+
+41943040 blocks required to store the free list of 20GB
+
+
+	9.
+	If we have a three-level tree-structured allocation structure as in Figure 17-8, where each block is 1024 bytes and each block pointer is 4 bytes, how large is the largest file that can be represented?
+
+1024 bytes = 2^10
+Block pointer = 4 bytes = 2^2
+Three level structure = 2^(n)
+
+
+2^10 * 2 ^2  * 2^4 = 2^16
+2^16 = 65536 bytes is the largest file that can be represented 
+
+
+	14.
+	Why would it be a problem to remove a USB storage device without unmounting it first?
+This can be a problem if there was data that was being buffered to the USB device and that was not unmounted that can leave the USB device in an inconsistent state that could corrupt or damage remaining data on the device.
+
+
+	15.
+	Can a file allocation table scheme represent sparse files? Why or why not?
+No they cannot be represented in sparse files. Sparse files contain only meaningful data and do not allow an application to allocate more disk blocks than are actually needed which can not be represented on a FAT scheme that has added blocks in some of the table values. 
+
+
