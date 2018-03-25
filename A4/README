@@ -1,0 +1,10 @@
+Joseph Mulray
+CS 370
+March 21st 2018
+Programming Project 4
+Simple encrpyted FileSystem
+
+Modified Files:
+filesys.c
+
+The approach that I decided to go to was modifying the kernel into a simple encrypted system. For the functions I tried to conceptually follow and understand both reading and writing approaches from devroot.c and devtinfs.c. For my encryption I went for more of simplified approach of just simply modifying the file data. In doing so this protects the contexts, where I did not see a point in encrypting the entire object itself. In doing so my original plan was to use some sort of a dictionary approach and store the qid as a key value to the encrypt the password and have a different password for each file object. I later realized that this approach would not work in a given the ever ending qid and constantly searching and retrieving passwords so i went for more of a config file value to hash the data. Overall tried to logically explain what I was doing in each of the operations.
